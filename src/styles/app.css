@@ -1,0 +1,407 @@
+/* ============================================================
+   lilUTM: campaign URL builder
+   (Poppins is loaded via <link> in the page head, not @import)
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #eceef2;
+  --panel: #ffffff;
+  --ink: #1f2329;
+  --muted: #5b6470;
+  --line: #dfe3e8;
+  --field: #f6f7f9;
+  --accent: #536ee5;
+  --accent-ink: #ffffff;
+  --accent-soft: #eef1fd;
+  --ok: #1f9d57;
+  --bad: #d6455b;
+  --radius: 12px;
+  --font: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+html[data-theme="dark"] {
+  --bg: #15171c;
+  --panel: #1c1f26;
+  --ink: #eceef2;
+  --muted: #9aa3b0;
+  --line: #2a2e37;
+  --field: #23262e;
+  --accent: #8295f2;
+  --accent-soft: #232839;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--accent);
+}
+
+/* ---------- Header ---------- */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+.app-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.app-header__logo {
+  display: flex;
+  align-items: center;
+  color: var(--ink);
+  flex: 0 0 auto;
+}
+.lila-logo {
+  height: 22px;
+  width: auto;
+  display: block;
+}
+.app-header__divider {
+  width: 1px;
+  height: 26px;
+  background: var(--line);
+  flex: 0 0 auto;
+}
+.app-header__name {
+  margin: 0;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.15;
+}
+.app-header__tag {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+.ui-theme-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: var(--field);
+  color: var(--ink);
+  cursor: pointer;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.ui-theme-btn:hover {
+  border-color: var(--accent);
+}
+.ui-theme-btn svg {
+  display: block;
+}
+
+/* ---------- Layout ---------- */
+.app {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(360px, 460px) 1fr;
+  min-height: 0;
+}
+.pane {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.form-pane {
+  background: var(--panel);
+  border-right: 1px solid var(--line);
+}
+.out-pane {
+  background: var(--bg);
+}
+
+/* ---------- Bars ---------- */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+}
+.bar__label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.out-bar {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  justify-content: space-between;
+}
+
+/* ---------- Preset chips ---------- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink);
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 11px;
+  cursor: pointer;
+}
+.chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ---------- Form ---------- */
+.fields {
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.field__label {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink);
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+.field__label em {
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+.fields input[type="text"] {
+  width: 100%;
+  font: inherit;
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 9px 11px;
+}
+.fields input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 550;
+  padding: 8px 16px;
+  border-radius: 9px;
+  cursor: pointer;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+  white-space: nowrap;
+}
+.btn--primary:hover {
+  filter: brightness(1.05);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Output ---------- */
+.url-wrap {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+}
+.badge {
+  font-size: 12.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.badge::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.badge--ok {
+  color: var(--ok);
+}
+.badge--muted {
+  color: var(--muted);
+}
+.badge--bad {
+  color: var(--bad);
+}
+.url-box {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+}
+.url-box a {
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--accent);
+  word-break: break-all;
+  text-decoration: none;
+}
+.url-box a:hover {
+  text-decoration: underline;
+}
+.url-box:empty::after,
+.url-box a:empty::after {
+  content: "Your tracking URL will appear here";
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 13.5px;
+}
+.param-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.param {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 8px 14px;
+  font-size: 13px;
+}
+.param + .param {
+  border-top: 0;
+}
+.param__k {
+  font-family: var(--mono);
+  color: var(--muted);
+}
+.param__v {
+  color: var(--ink);
+  word-break: break-all;
+}
+
+/* ---------- lilQR cross-promo CTA ---------- */
+.cta {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  color: var(--ink);
+}
+.cta:hover {
+  border-color: var(--accent);
+}
+.cta__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+.cta__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.cta__text strong {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.cta__text span {
+  font-size: 12.5px;
+  color: var(--accent);
+  font-weight: 550;
+}
+
+/* ---------- Footer ---------- */
+.app-footer {
+  padding: 12px 20px;
+  background: var(--panel);
+  border-top: 1px solid var(--line);
+  font-size: 12.5px;
+  color: var(--muted);
+  text-align: center;
+}
+.app-footer a {
+  color: var(--accent);
+  font-weight: 550;
+}
+.app-footer__heart {
+  color: #e0506a;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 880px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+  .form-pane {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+}
